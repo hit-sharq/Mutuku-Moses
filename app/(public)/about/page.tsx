@@ -53,7 +53,7 @@ export default async function AboutPage() {
               <li style={{ marginBottom: "1rem", padding: "0.5rem 0", borderBottom: "1px solid #e2e8f0" }}>
                 <strong>Bachelor of Laws (LLB)</strong>
                 <br />
-                University of Nairobi, 2008
+                University of Nazarene, 2008
               </li>
               <li style={{ marginBottom: "1rem", padding: "0.5rem 0", borderBottom: "1px solid #e2e8f0" }}>
                 <strong>Diploma in Legal Practice</strong>

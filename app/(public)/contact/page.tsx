@@ -288,8 +288,8 @@ export default function ContactPage() {
                   <div>
                     <h4 style={{ color: "#1a365d", marginBottom: "0.5rem" }}>Email</h4>
                     <p style={{ margin: 0, marginBottom: "0.25rem" }}>
-                      <a href="mailto:info@mutukumoses.com" style={{ color: "#1a365d", textDecoration: "none" }}>
-                        info@mutukumoses.com
+                      <a href="mailto:officialmutuku@gmail.com" style={{ color: "#1a365d", textDecoration: "none" }}>
+                        officialmutuku@gmail.com
                       </a>
                     </p>
                     <p style={{ margin: 0, color: "#666", fontSize: "0.9rem" }}>
@@ -316,7 +316,7 @@ export default function ContactPage() {
                     <h4 style={{ color: "#1a365d", marginBottom: "0.5rem" }}>Phone</h4>
                     <p style={{ margin: 0, marginBottom: "0.25rem" }}>
                       <a href="tel:+254700123456" style={{ color: "#1a365d", textDecoration: "none" }}>
-                        +254 700 123 456
+                        +254 758 251 399
                       </a>
                     </p>
                     <p style={{ margin: 0, color: "#666", fontSize: "0.9rem" }}>Available 24/7 for emergencies</p>
@@ -461,10 +461,10 @@ export default function ContactPage() {
                   gap: "0.5rem",
                 }}
               >
-                📞 Emergency: +254 711 000 999
+                📞 Emergency: +254 758 251 399
               </a>
               <a
-                href="mailto:emergency@mutukumoses.com"
+                href="mailto:officialmutuku@gmail.com"
                 style={{
                   background: "rgba(255,255,255,0.2)",
                   color: "white",

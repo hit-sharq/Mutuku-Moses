@@ -29,8 +29,8 @@ export default function Footer() {
 
           <div className="footer-section">
             <h3>Contact Info</h3>
-            <p>📧 info@mutukumoses.com</p>
-            <p>📞 +254 700 123 456</p>
+            <p>📧 officialmutuku@gmail.com</p>
+            <p>📞 +254 758 251 399</p>
             <p>📍 Nairobi, Kenya</p>
           </div>
 
@@ -43,7 +43,7 @@ export default function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <p>&copy; 2024 Mutuku Moses Law Firm. All rights reserved.</p>
+          <p>&copy; 2025 Mutuku Moses Law Firm. All rights reserved.</p>
         </div>
       </div>
     </footer>
