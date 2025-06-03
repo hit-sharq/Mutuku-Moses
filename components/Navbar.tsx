@@ -1,14 +1,22 @@
 "use client"
 
 import Link from "next/link"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useUser, SignInButton, UserButton } from "@clerk/nextjs"
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isAdmin, setIsAdmin] = useState(false)
   const { user, isSignedIn } = useUser()
 
-  const isAdmin = isSignedIn && process.env.NEXT_PUBLIC_ADMIN_USER_IDS?.split(",").includes(user?.id || "")
+  useEffect(() => {
+    if (isSignedIn) {
+      fetch("/api/admin/check")
+        .then((res) => res.json())
+        .then((data) => setIsAdmin(data.isAdmin))
+        .catch(() => setIsAdmin(false))
+    }
+  }, [isSignedIn])
 
   return (
     <header className="header">
@@ -42,7 +50,9 @@ export default function Navbar() {
             </li>
             {isAdmin && (
               <li>
-                <Link href="/admin">Admin</Link>
+                <Link href="/admin" className="admin-link">
+                  Admin Panel
+                </Link>
               </li>
             )}
             {isSignedIn ? (

@@ -4,36 +4,19 @@ import type React from "react"
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import { uploadImage } from "@/lib/cloudinary"
 
-export default function NewBlogPost() {
+export default function NewTeamMember() {
   const router = useRouter()
   const [formData, setFormData] = useState({
+    name: "",
     title: "",
-    content: "",
-    summary: "",
-    published: false,
+    bio: "",
+    order: 0,
   })
   const [image, setImage] = useState<File | null>(null)
   const [imageUrl, setImageUrl] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
-
-  // New function to upload image via API route
-  const uploadImageToApi = async (file: File): Promise<string> => {
-    const formData = new FormData()
-    formData.append("file", file)
-
-    const response = await fetch("/api/admin/upload-image", {
-      method: "POST",
-      body: formData,
-    })
-
-    if (!response.ok) {
-      throw new Error("Image upload failed")
-    }
-
-    const data = await response.json()
-    return data.imageUrl
-  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -43,10 +26,10 @@ export default function NewBlogPost() {
       let finalImageUrl = imageUrl
 
       if (image) {
-        finalImageUrl = await uploadImageToApi(image)
+        finalImageUrl = await uploadImage(image)
       }
 
-      const response = await fetch("/api/admin/blog", {
+      const response = await fetch("/api/admin/team", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -58,10 +41,10 @@ export default function NewBlogPost() {
       })
 
       if (response.ok) {
-        router.push("/admin/blog")
+        router.push("/admin/team")
       }
     } catch (error) {
-      console.error("Error creating post:", error)
+      console.error("Error creating team member:", error)
     } finally {
       setIsSubmitting(false)
     }
@@ -79,14 +62,29 @@ export default function NewBlogPost() {
   return (
     <div>
       <div className="admin-header">
-        <h1 className="admin-title">Create New Blog Post</h1>
+        <h1 className="admin-title">Add New Team Member</h1>
       </div>
 
       <div className="card">
         <form onSubmit={handleSubmit} className="form">
           <div className="form-group">
+            <label htmlFor="name" className="form-label">
+              Name *
+            </label>
+            <input
+              type="text"
+              id="name"
+              value={formData.name}
+              onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
+              required
+              className="form-input"
+              placeholder="Enter team member's name"
+            />
+          </div>
+
+          <div className="form-group">
             <label htmlFor="title" className="form-label">
-              Title *
+              Title/Position *
             </label>
             <input
               type="text"
@@ -95,67 +93,59 @@ export default function NewBlogPost() {
               onChange={(e) => setFormData((prev) => ({ ...prev, title: e.target.value }))}
               required
               className="form-input"
-              placeholder="Enter blog post title"
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="summary" className="form-label">
-              Summary
-            </label>
-            <input
-              type="text"
-              id="summary"
-              value={formData.summary}
-              onChange={(e) => setFormData((prev) => ({ ...prev, summary: e.target.value }))}
-              className="form-input"
-              placeholder="Brief summary of the post"
+              placeholder="E.g., Senior Associate, Legal Assistant, etc."
             />
           </div>
 
           <div className="form-group">
             <label htmlFor="image" className="form-label">
-              Featured Image
+              Profile Photo
             </label>
             <input type="file" id="image" accept="image/*" onChange={handleImageChange} className="form-input" />
             {imageUrl && (
               <img
                 src={imageUrl || "/placeholder.svg"}
                 alt="Preview"
-                style={{ marginTop: "1rem", maxWidth: "200px", borderRadius: "5px" }}
+                style={{ marginTop: "1rem", maxWidth: "150px", borderRadius: "50%" }}
               />
             )}
           </div>
 
           <div className="form-group">
-            <label htmlFor="content" className="form-label">
-              Content *
+            <label htmlFor="bio" className="form-label">
+              Bio *
             </label>
             <textarea
-              id="content"
-              value={formData.content}
-              onChange={(e) => setFormData((prev) => ({ ...prev, content: e.target.value }))}
+              id="bio"
+              value={formData.bio}
+              onChange={(e) => setFormData((prev) => ({ ...prev, bio: e.target.value }))}
               required
               className="form-textarea"
-              placeholder="Write your blog post content here..."
-              rows={15}
+              placeholder="Write a brief bio for this team member..."
+              rows={8}
             />
           </div>
 
           <div className="form-group">
-            <label style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-              <input
-                type="checkbox"
-                checked={formData.published}
-                onChange={(e) => setFormData((prev) => ({ ...prev, published: e.target.checked }))}
-              />
-              Publish immediately
+            <label htmlFor="order" className="form-label">
+              Display Order
             </label>
+            <input
+              type="number"
+              id="order"
+              value={formData.order}
+              onChange={(e) => setFormData((prev) => ({ ...prev, order: Number.parseInt(e.target.value) }))}
+              className="form-input"
+              placeholder="Lower numbers appear first"
+            />
+            <small style={{ color: "#666", marginTop: "0.5rem", display: "block" }}>
+              Lower numbers will appear first on the team page. Use this to control the order of team members.
+            </small>
           </div>
 
           <div style={{ display: "flex", gap: "1rem" }}>
             <button type="submit" disabled={isSubmitting} className="btn btn-primary">
-              {isSubmitting ? "Creating..." : "Create Post"}
+              {isSubmitting ? "Creating..." : "Add Team Member"}
             </button>
             <button type="button" onClick={() => router.back()} className="btn btn-secondary">
               Cancel

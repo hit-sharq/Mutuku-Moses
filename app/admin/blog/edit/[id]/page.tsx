@@ -2,10 +2,15 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
+import { uploadImage } from "@/lib/cloudinary"
 
-export default function NewBlogPost() {
+export default function EditBlogPost({
+  params,
+}: {
+  params: { id: string }
+}) {
   const router = useRouter()
   const [formData, setFormData] = useState({
     title: "",
@@ -16,24 +21,34 @@ export default function NewBlogPost() {
   const [image, setImage] = useState<File | null>(null)
   const [imageUrl, setImageUrl] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
-  // New function to upload image via API route
-  const uploadImageToApi = async (file: File): Promise<string> => {
-    const formData = new FormData()
-    formData.append("file", file)
-
-    const response = await fetch("/api/admin/upload-image", {
-      method: "POST",
-      body: formData,
-    })
-
-    if (!response.ok) {
-      throw new Error("Image upload failed")
+  useEffect(() => {
+    const fetchPost = async () => {
+      try {
+        const response = await fetch(`/api/admin/blog/${params.id}`)
+        if (response.ok) {
+          const post = await response.json()
+          setFormData({
+            title: post.title,
+            content: post.content,
+            summary: post.summary || "",
+            published: post.published,
+          })
+          setImageUrl(post.image || "")
+        } else {
+          router.push("/admin/blog")
+        }
+      } catch (error) {
+        console.error("Error fetching post:", error)
+        router.push("/admin/blog")
+      } finally {
+        setIsLoading(false)
+      }
     }
 
-    const data = await response.json()
-    return data.imageUrl
-  }
+    fetchPost()
+  }, [params.id, router])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -43,11 +58,11 @@ export default function NewBlogPost() {
       let finalImageUrl = imageUrl
 
       if (image) {
-        finalImageUrl = await uploadImageToApi(image)
+        finalImageUrl = await uploadImage(image)
       }
 
-      const response = await fetch("/api/admin/blog", {
-        method: "POST",
+      const response = await fetch(`/api/admin/blog/${params.id}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
@@ -61,7 +76,7 @@ export default function NewBlogPost() {
         router.push("/admin/blog")
       }
     } catch (error) {
-      console.error("Error creating post:", error)
+      console.error("Error updating post:", error)
     } finally {
       setIsSubmitting(false)
     }
@@ -76,10 +91,23 @@ export default function NewBlogPost() {
     }
   }
 
+  if (isLoading) {
+    return (
+      <div>
+        <div className="admin-header">
+          <h1 className="admin-title">Edit Blog Post</h1>
+        </div>
+        <div className="card">
+          <p>Loading post...</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div>
       <div className="admin-header">
-        <h1 className="admin-title">Create New Blog Post</h1>
+        <h1 className="admin-title">Edit Blog Post</h1>
       </div>
 
       <div className="card">
@@ -155,7 +183,7 @@ export default function NewBlogPost() {
 
           <div style={{ display: "flex", gap: "1rem" }}>
             <button type="submit" disabled={isSubmitting} className="btn btn-primary">
-              {isSubmitting ? "Creating..." : "Create Post"}
+              {isSubmitting ? "Updating..." : "Update Post"}
             </button>
             <button type="button" onClick={() => router.back()} className="btn btn-secondary">
               Cancel
