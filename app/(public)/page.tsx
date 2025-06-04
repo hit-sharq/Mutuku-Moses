@@ -40,7 +40,7 @@ export default async function HomePage() {
             </div>
             <div style={{ textAlign: "center" }}>
               <Image
-                src="/placeholder.svg?height=400&width=400"
+                src="/Mutuku.JPG"
                 alt="Mutuku Moses"
                 width={400}
                 height={400}
@@ -60,7 +60,7 @@ export default async function HomePage() {
                 About Mutuku Moses
               </h2>
               <p style={{ fontSize: "1.1rem", marginBottom: "1.5rem", color: "#666" }}>
-                With over 15 years of experience in legal practice, Mutuku Moses has established himself as a trusted
+                With over 5 years of experience in legal practice, Mutuku Moses has established himself as a trusted
                 advocate for clients across various legal matters. His commitment to excellence and client-focused
                 approach has earned him recognition in the legal community.
               </p>
@@ -74,7 +74,7 @@ export default async function HomePage() {
             </div>
             <div>
               <Image
-                src="/placeholder.svg?height=300&width=400"
+                src="/Musa.jpg"
                 alt="Mutuku Moses in office"
                 width={400}
                 height={300}

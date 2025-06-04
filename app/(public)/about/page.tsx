@@ -23,7 +23,7 @@ export default async function AboutPage() {
         <div className="grid grid-2" style={{ alignItems: "center", marginBottom: "4rem" }}>
           <div>
             <Image
-              src={profile?.image || "/placeholder.svg?height=400&width=400"}
+              src="/Moses.jpg"
               alt="Mutuku Moses"
               width={400}
               height={400}
@@ -53,23 +53,19 @@ export default async function AboutPage() {
               <li style={{ marginBottom: "1rem", padding: "0.5rem 0", borderBottom: "1px solid #e2e8f0" }}>
                 <strong>Bachelor of Laws (LLB)</strong>
                 <br />
-                University of Nazarene, 2008
+                University of Nazarene, 2019
               </li>
               <li style={{ marginBottom: "1rem", padding: "0.5rem 0", borderBottom: "1px solid #e2e8f0" }}>
-                <strong>Diploma in Legal Practice</strong>
+                <strong>Post graduate in Legal Practice</strong>
                 <br />
-                Kenya School of Law, 2009
+                Kenya School of Law
               </li>
               <li style={{ marginBottom: "1rem", padding: "0.5rem 0", borderBottom: "1px solid #e2e8f0" }}>
-                <strong>Certified Public Secretary (CPS)</strong>
+                <strong>Law Intern (CPS)</strong>
                 <br />
-                Kaplan Professional, 2010
+                Makadara Law Courts
               </li>
-              <li style={{ padding: "0.5rem 0" }}>
-                <strong>Member, Law Society of Kenya</strong>
-                <br />
-                Admitted to the Bar, 2009
-              </li>
+          
             </ul>
           </div>
 
@@ -77,26 +73,55 @@ export default async function AboutPage() {
             <h3>Professional Experience</h3>
             <ul style={{ listStyle: "none", padding: 0 }}>
               <li style={{ marginBottom: "1.5rem", padding: "0.5rem 0", borderBottom: "1px solid #e2e8f0" }}>
-                <strong>Senior Partner</strong>
+                <strong>Pupil</strong>
                 <br />
-                <em>Mutuku Moses & Associates (2015 - Present)</em>
+                <em>F.M Muteti $ Company Advocates</em>
                 <br />
-                Leading a team of legal professionals in providing comprehensive legal services.
+                <ul style={{ marginTop: "0.5rem", paddingLeft: "1.2rem", color: "#666" }}>
+                  <li>Drafting Pleadings.</li>
+                  <li>Drafting Land and Commercial Agreements.</li>
+                  <li>Drafting charge instruments and offer letters.</li>
+                  <li>Supporting legal and regulatory advocacy and research objectives</li>
+                  <li>Supporting legal affairs of the Firm and provision of legal advice.</li>
+                  <li>Supporting management of information and record keeping.</li>
+                  <li>Attending engagements on behalf of the firm.</li>
+                  <li>Timely and accurate drafts on correspondences and legal opinions.</li>
+                  <li>Development of legal research, advisories, memorandums and documents necessary to support legal advocacy work.</li>
+                  <li>Handling Constitutional and regulatory issues</li>
+                  <li>Review of policies and legislations</li>
+                  <li>Drafting correspondences, legal opinions and regulatory advocacy position papers</li>
+                </ul>
               </li>
               <li style={{ marginBottom: "1.5rem", padding: "0.5rem 0", borderBottom: "1px solid #e2e8f0" }}>
-                <strong>Associate Lawyer</strong>
+                <strong>Legal Intern</strong>
                 <br />
-                <em>Kamau & Partners LLP (2012 - 2015)</em>
+                <em>Morris Maina $ Company Advocates - internship </em>
                 <br />
-                Specialized in criminal defense and family law matters.
+                <ul style={{ marginTop: "0.5rem", paddingLeft: "1.2rem", color: "#666" }}>
+                  <li>Drafting correspondences, legal opinions and regulatory advocacy position papers</li>
+                  <li>Drafting Pleadings</li>
+                  <li>Drafting commercial and land sale agreements</li>
+                  <li>Support on the drafting and review of Contracts, MOUs and partnership agreements and maintaining a tracking system for the same.</li>
+                  <li>Monitoring and keeping track of all documents and records on legal issues</li>
+                  <li>Assisting in legal and regulatory research work</li>
+                </ul>
               </li>
-              <li style={{ padding: "0.5rem 0" }}>
-                <strong>Junior Associate</strong>
+              <li style={{ marginBottom: "1.5rem", padding: "0.5rem 0", borderBottom: "1px solid #e2e8f0" }}>
+                <strong>Legal Intern</strong>
                 <br />
-                <em>Nairobi Legal Chambers (2009 - 2012)</em>
+                <em>JM Waiganjo $ Company Advocates</em>
                 <br />
-                Gained foundational experience in various areas of law.
-              </li>
+                <ul style={{ marginTop: "0.5rem", paddingLeft: "1.2rem", color: "#666" }}>
+                  <li>Supporting legal affairs of the Firm and provision of legal advice.</li>
+                  <li>Supporting management of information and record keeping.</li>
+                  <li>Attending engagements on behalf of the firm.</li>
+                  <li>Timely and accurate drafts on correspondences and legal opinions.</li>
+                  <li>Development of legal research, advisories, memorandums and documents necessary to support legal advocacy work.</li>
+                  <li>Handling Constitutional and regulatory issues</li>
+                  <li>Review of policies and legislations</li>
+                  <li>Drafting correspondences, legal opinions and regulatory advocacy position paper</li>
+                </ul>
+              </li> 
             </ul>
           </div>
         </div>
