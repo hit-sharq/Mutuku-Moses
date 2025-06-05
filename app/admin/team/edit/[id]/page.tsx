@@ -2,15 +2,15 @@
 
 import type React from "react"
 
-import { useState, useEffect } from "react"
+import { use, useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { uploadImage } from "@/lib/cloudinary"
 
 export default function EditTeamMember({
   params,
 }: {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }) {
+  const unwrappedParams = use(params)
   const router = useRouter()
   const [formData, setFormData] = useState({
     name: "",
@@ -26,7 +26,7 @@ export default function EditTeamMember({
   useEffect(() => {
     const fetchTeamMember = async () => {
       try {
-        const response = await fetch(`/api/admin/team/${params.id}`)
+        const response = await fetch(`/api/admin/team/${unwrappedParams.id}`)
         if (response.ok) {
           const member = await response.json()
           setFormData({
@@ -48,7 +48,24 @@ export default function EditTeamMember({
     }
 
     fetchTeamMember()
-  }, [params.id, router])
+  }, [unwrappedParams.id, router])
+
+  const uploadImageToServer = async (file: File): Promise<string> => {
+    const formData = new FormData()
+    formData.append("file", file)
+
+    const response = await fetch("/api/admin/upload-image", {
+      method: "POST",
+      body: formData,
+    })
+
+    if (!response.ok) {
+      throw new Error("Failed to upload image")
+    }
+
+    const data = await response.json()
+    return data.imageUrl
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -58,10 +75,10 @@ export default function EditTeamMember({
       let finalImageUrl = imageUrl
 
       if (image) {
-        finalImageUrl = await uploadImage(image)
+        finalImageUrl = await uploadImageToServer(image)
       }
 
-      const response = await fetch(`/api/admin/team/${params.id}`, {
+      const response = await fetch(`/api/admin/team/${unwrappedParams.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

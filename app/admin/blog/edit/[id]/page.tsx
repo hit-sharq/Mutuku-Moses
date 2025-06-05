@@ -2,15 +2,15 @@
 
 import type React from "react"
 
-import { useState, useEffect } from "react"
+import { use, useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { uploadImage } from "@/lib/cloudinary"
 
 export default function EditBlogPost({
   params,
 }: {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }) {
+  const unwrappedParams = use(params)
   const router = useRouter()
   const [formData, setFormData] = useState({
     title: "",
@@ -26,7 +26,7 @@ export default function EditBlogPost({
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const response = await fetch(`/api/admin/blog/${params.id}`)
+        const response = await fetch(`/api/admin/blog/${unwrappedParams.id}`)
         if (response.ok) {
           const post = await response.json()
           setFormData({
@@ -48,7 +48,7 @@ export default function EditBlogPost({
     }
 
     fetchPost()
-  }, [params.id, router])
+  }, [unwrappedParams.id, router])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -58,10 +58,23 @@ export default function EditBlogPost({
       let finalImageUrl = imageUrl
 
       if (image) {
-        finalImageUrl = await uploadImage(image)
+        const formData = new FormData()
+        formData.append("file", image)
+
+        const uploadResponse = await fetch("/api/admin/upload-image", {
+          method: "POST",
+          body: formData,
+        })
+
+        if (!uploadResponse.ok) {
+          throw new Error("Image upload failed")
+        }
+
+        const uploadData = await uploadResponse.json()
+        finalImageUrl = uploadData.imageUrl
       }
 
-      const response = await fetch(`/api/admin/blog/${params.id}`, {
+      const response = await fetch(`/api/admin/blog/${unwrappedParams.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

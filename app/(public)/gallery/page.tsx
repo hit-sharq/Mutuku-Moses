@@ -1,5 +1,5 @@
-import Image from "next/image"
 import { prisma } from "@/lib/prisma"
+import GalleryGrid from "@/components/GalleryGrid"
 
 async function getGalleryImages() {
   return await prisma.galleryImage.findMany({
@@ -19,23 +19,7 @@ export default async function GalleryPage() {
           excellence in legal practice.
         </p>
 
-        <div className="gallery-grid">
-          {images.map((image) => (
-            <div key={image.id} className="gallery-item">
-              <Image
-                src={image.imageUrl || "/placeholder.svg"}
-                alt={image.title}
-                width={300}
-                height={300}
-                className="gallery-image"
-              />
-              <div className="gallery-overlay">
-                <h4 style={{ marginBottom: "0.5rem" }}>{image.title}</h4>
-                {image.description && <p>{image.description}</p>}
-              </div>
-            </div>
-          ))}
-        </div>
+        <GalleryGrid images={images} />
 
         {images.length === 0 && (
           <div className="card" style={{ textAlign: "center", padding: "4rem 2rem" }}>

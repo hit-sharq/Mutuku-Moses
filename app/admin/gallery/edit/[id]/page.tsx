@@ -4,13 +4,14 @@ import type React from "react"
 
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { uploadImage } from "@/lib/cloudinary"
+import { use } from "react"
 
 export default function EditGalleryImage({
   params,
 }: {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }) {
+  const unwrappedParams = use(params)
   const router = useRouter()
   const [formData, setFormData] = useState({
     title: "",
@@ -25,7 +26,7 @@ export default function EditGalleryImage({
   useEffect(() => {
     const fetchGalleryImage = async () => {
       try {
-        const response = await fetch(`/api/admin/gallery/${params.id}`)
+        const response = await fetch(`/api/admin/gallery/${unwrappedParams.id}`)
         if (response.ok) {
           const galleryImage = await response.json()
           setFormData({
@@ -46,7 +47,24 @@ export default function EditGalleryImage({
     }
 
     fetchGalleryImage()
-  }, [params.id, router])
+  }, [unwrappedParams.id, router])
+
+  const uploadImageToServer = async (file: File): Promise<string> => {
+    const formData = new FormData()
+    formData.append("file", file)
+
+    const response = await fetch("/api/admin/upload-image", {
+      method: "POST",
+      body: formData,
+    })
+
+    if (!response.ok) {
+      throw new Error("Failed to upload image")
+    }
+
+    const data = await response.json()
+    return data.imageUrl
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -56,10 +74,10 @@ export default function EditGalleryImage({
       let finalImageUrl = imageUrl
 
       if (image) {
-        finalImageUrl = await uploadImage(image)
+        finalImageUrl = await uploadImageToServer(image)
       }
 
-      const response = await fetch(`/api/admin/gallery/${params.id}`, {
+      const response = await fetch(`/api/admin/gallery/${unwrappedParams.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

@@ -4,7 +4,6 @@ import type React from "react"
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { uploadImage } from "@/lib/cloudinary"
 
 export default function NewGalleryImage() {
   const router = useRouter()
@@ -17,6 +16,23 @@ export default function NewGalleryImage() {
   const [imageUrl, setImageUrl] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
 
+  const uploadImageToServer = async (file: File): Promise<string> => {
+    const formData = new FormData()
+    formData.append("file", file)
+
+    const response = await fetch("/api/admin/upload-image", {
+      method: "POST",
+      body: formData,
+    })
+
+    if (!response.ok) {
+      throw new Error("Failed to upload image")
+    }
+
+    const data = await response.json()
+    return data.imageUrl
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
@@ -28,7 +44,7 @@ export default function NewGalleryImage() {
     setIsSubmitting(true)
 
     try {
-      const uploadedImageUrl = await uploadImage(image)
+      const uploadedImageUrl = await uploadImageToServer(image)
 
       const response = await fetch("/api/admin/gallery", {
         method: "POST",

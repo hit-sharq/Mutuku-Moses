@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState, useEffect } from "react"
+import { use, useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 
 const EMOJI_OPTIONS = [
@@ -31,8 +31,9 @@ const EMOJI_OPTIONS = [
 export default function EditPracticeArea({
   params,
 }: {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }) {
+  const unwrappedParams = use(params)
   const router = useRouter()
   const [formData, setFormData] = useState({
     title: "",
@@ -46,7 +47,7 @@ export default function EditPracticeArea({
   useEffect(() => {
     const fetchPracticeArea = async () => {
       try {
-        const response = await fetch(`/api/admin/practice-areas/${params.id}`)
+        const response = await fetch(`/api/admin/practice-areas/${unwrappedParams.id}`)
         if (response.ok) {
           const area = await response.json()
           setFormData({
@@ -67,14 +68,14 @@ export default function EditPracticeArea({
     }
 
     fetchPracticeArea()
-  }, [params.id, router])
+  }, [unwrappedParams.id, router])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
 
     try {
-      const response = await fetch(`/api/admin/practice-areas/${params.id}`, {
+      const response = await fetch(`/api/admin/practice-areas/${unwrappedParams.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -106,7 +107,7 @@ export default function EditPracticeArea({
   }
 
   return (
-    <div>
+    <div suppressHydrationWarning={true}>
       <div className="admin-header">
         <h1 className="admin-title">Edit Practice Area</h1>
       </div>

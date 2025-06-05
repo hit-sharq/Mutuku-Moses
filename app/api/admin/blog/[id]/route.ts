@@ -2,12 +2,14 @@ import { type NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { requireAdmin } from "@/lib/auth"
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     await requireAdmin()
 
+    const unwrappedParams = await params
+
     const post = await prisma.blogPost.findUnique({
-      where: { id: params.id },
+      where: { id: unwrappedParams.id },
     })
 
     if (!post) {
@@ -21,9 +23,11 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     await requireAdmin()
+
+    const unwrappedParams = await params
 
     const { title, content, summary, image, published } = await request.json()
 
@@ -34,7 +38,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
       .replace(/(^-|-$)/g, "")
 
     const post = await prisma.blogPost.update({
-      where: { id: params.id },
+      where: { id: unwrappedParams.id },
       data: {
         title,
         slug,
@@ -52,12 +56,14 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     await requireAdmin()
 
+    const unwrappedParams = await params
+
     await prisma.blogPost.delete({
-      where: { id: params.id },
+      where: { id: unwrappedParams.id },
     })
 
     return NextResponse.json({ message: "Blog post deleted successfully" })

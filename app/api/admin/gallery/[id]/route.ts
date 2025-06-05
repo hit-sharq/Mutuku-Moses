@@ -2,9 +2,10 @@ import { type NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { requireAdmin } from "@/lib/auth"
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     await requireAdmin()
+    const params = await context.params
 
     const galleryImage = await prisma.galleryImage.findUnique({
       where: { id: params.id },
@@ -21,9 +22,10 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     await requireAdmin()
+    const params = await context.params
 
     const { title, description, imageUrl, order } = await request.json()
 
@@ -44,9 +46,10 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     await requireAdmin()
+    const params = await context.params
 
     await prisma.galleryImage.delete({
       where: { id: params.id },

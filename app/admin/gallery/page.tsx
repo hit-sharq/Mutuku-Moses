@@ -83,33 +83,34 @@ export default function GalleryManager() {
               Add First Gallery Image
             </Link>
           </div>
-        ) : (
-          <div className="grid grid-3" style={{ gap: "2rem" }}>
-            {images.map((image) => (
-              <div key={image.id} className="card" style={{ padding: "0", overflow: "hidden" }}>
-                <div style={{ position: "relative", height: "200px" }}>
-                  <Image
-                    src={image.imageUrl || "/placeholder.svg?height=200&width=300"}
-                    alt={image.title}
-                    fill
-                    style={{ objectFit: "cover" }}
-                  />
-                </div>
-                <div style={{ padding: "1rem" }}>
-                  <h3 style={{ marginBottom: "0.5rem" }}>{image.title}</h3>
-                  {image.description && <p style={{ color: "#666", marginBottom: "1rem" }}>{image.description}</p>}
-                  <div style={{ display: "flex", gap: "0.5rem" }}>
-                    <Link href={`/admin/gallery/edit/${image.id}`} className="btn btn-secondary">
-                      Edit
-                    </Link>
-                    <button onClick={() => handleDelete(image.id)} className="btn btn-danger">
-                      Delete
-                    </button>
+          ) : (
+            <div className="grid grid-3" style={{ gap: "1rem", gridTemplateColumns: "repeat(3, 1fr)" }}>
+              {images.map((image) => (
+                <div key={image.id} className="card" style={{ padding: "0", overflow: "hidden", borderRadius: "8px", width: "280px", margin: "0 auto" }}>
+                  <div style={{ position: "relative", width: "280px", height: "220px" }}>
+                    <Image
+                      src={image.imageUrl || "/placeholder.svg"}
+                      alt={image.title}
+                      width={280}
+                      height={220}
+                      style={{ objectFit: "contain", borderRadius: "8px" }}
+                    />
+                  </div>
+                  <div style={{ padding: "1rem" }}>
+                    <h3 style={{ marginBottom: "0.5rem" }}>{image.title}</h3>
+                    {image.description && <p style={{ color: "#666", marginBottom: "1rem" }}>{image.description}</p>}
+                    <div style={{ display: "flex", gap: "0.5rem" }}>
+                      <Link href={`/admin/gallery/edit/${image.id}`} className="btn btn-secondary">
+                        Edit
+                      </Link>
+                      <button onClick={() => handleDelete(image.id)} className="btn btn-danger">
+                        Delete
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
         )}
       </div>
     </div>
