@@ -40,10 +40,33 @@ export default function Footer() {
             <p>Saturday: 9:00 AM - 2:00 PM</p>
             <p>Sunday: Closed</p>
           </div>
+
+          <div className="footer-section">
+            <h3>Follow Me</h3>
+            <div className="flex justify-between items-start">
+              <div className="flex flex-col space-y-1">
+
+                <p>
+                  <a href="https://facebook.com/mutukumoses" target="_blank" rel="noopener noreferrer">🄼 Facebook</a>
+                </p>
+                <p>
+                  <a href="https://twitter.com/mutukumoses" target="_blank" rel="noopener noreferrer">🅄 Twitter</a>
+                </p>
+                <p>
+                  <a href="https://linkedin.com/in/mutukumoses" target="_blank" rel="noopener noreferrer">🅂 LinkedIn</a>
+                </p>
+                <p>
+                  <a href="https://instagram.com/mutukumoses" target="_blank" rel="noopener noreferrer">🄰 Instagram</a>
+                </p>
+              </div>
+              <img src="/Musa.jpg" alt="Musa" className="w-20 h-20 object-cover rounded-full shadow-lg border-2 border-gray-300" />
+            </div>
+          </div>
         </div>
 
         <div className="footer-bottom">
-          <p>&copy; 2025 Mutuku Moses Law Firm. All rights reserved.</p>
+          
+          <p>&copy; 2025 Mutuku Moses. All rights reserved.</p>
         </div>
       </div>
     </footer>

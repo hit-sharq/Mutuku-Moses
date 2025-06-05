@@ -28,29 +28,29 @@ export default function Navbar() {
 
           <ul className={`nav-links ${isMenuOpen ? "mobile-open" : ""}`}>
             <li>
-              <Link href="/">Home</Link>
+              <Link href="/" onClick={() => setIsMenuOpen(false)}>Home</Link>
             </li>
             <li>
-              <Link href="/about">About</Link>
+              <Link href="/about" onClick={() => setIsMenuOpen(false)}>About</Link>
             </li>
             <li>
-              <Link href="/practice-areas">Practice Areas</Link>
+              <Link href="/practice-areas" onClick={() => setIsMenuOpen(false)}>Practice Areas</Link>
             </li>
             <li>
-              <Link href="/team">Team</Link>
+              <Link href="/team" onClick={() => setIsMenuOpen(false)}>Team</Link>
             </li>
             <li>
-              <Link href="/blog">Blog</Link>
+              <Link href="/blog" onClick={() => setIsMenuOpen(false)}>Blog</Link>
             </li>
             <li>
-              <Link href="/gallery">Gallery</Link>
+              <Link href="/gallery" onClick={() => setIsMenuOpen(false)}>Gallery</Link>
             </li>
             <li>
-              <Link href="/contact">Contact</Link>
+              <Link href="/contact" onClick={() => setIsMenuOpen(false)}>Contact</Link>
             </li>
             {isAdmin && (
               <li>
-                <Link href="/admin" className="admin-link">
+                <Link href="/admin" className="admin-link" onClick={() => setIsMenuOpen(false)}>
                   Admin Panel
                 </Link>
               </li>
