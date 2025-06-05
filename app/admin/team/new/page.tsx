@@ -18,6 +18,7 @@ export default function NewTeamMember() {
   const [imageUrl, setImageUrl] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
 
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
@@ -26,7 +27,21 @@ export default function NewTeamMember() {
       let finalImageUrl = imageUrl
 
       if (image) {
-        finalImageUrl = await uploadImage(image)
+        // Upload image via API route
+        const formData = new FormData()
+        formData.append("file", image)
+
+        const uploadResponse = await fetch("/api/admin/upload-image", {
+          method: "POST",
+          body: formData,
+        })
+
+        if (!uploadResponse.ok) {
+          throw new Error("Image upload failed")
+        }
+
+        const uploadData = await uploadResponse.json()
+        finalImageUrl = uploadData.imageUrl
       }
 
       const response = await fetch("/api/admin/team", {
